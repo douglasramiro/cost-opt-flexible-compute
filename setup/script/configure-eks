@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -eu
+
+region=$(curl -sS http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+cluster=flexible-compute-cluster
+export KUBECTL_VERSION=v1.21.2
+
+echo 'Installing eksctl'
+curl --silent --location https://github.com/weaveworks/eksctl/releases/download/v0.87.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+
+
+echo 'Installing kubectl'
+
+sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+sudo chmod +x /usr/local/bin/kubectl
+
+echo 'Configuring EKS context'
+aws eks update-kubeconfig --region $region --name $cluster
