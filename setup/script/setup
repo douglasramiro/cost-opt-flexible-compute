@@ -17,4 +17,7 @@ script/configure-cloud9
 echo "Attaching Instance Profile to Cloud9..."
 script/associate-profile
 
+echo "Cleaning cached credential..."
+rm -vf ${HOME}/.aws/credentials
+
 echo "Success!"
