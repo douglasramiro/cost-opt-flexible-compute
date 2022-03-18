@@ -11,8 +11,9 @@ curl --silent --location https://github.com/weaveworks/eksctl/releases/download/
 sudo mv /tmp/eksctl /usr/local/bin
 
 
-echo 'Installing kubectl'
 
+
+echo 'Installing kubectl'
 sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 
