@@ -17,16 +17,20 @@ echo 'Installing kubectl'
 sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 
-echo 'Creating an EKS cluster'
-eksctl create cluster --name=$CLUSTER_NAME --nodes=1 --region=$REGION  --instance-selector-vcpus=2 --instance-selector-memory=4GiB --zones us-east-1a,us-east-1b,us-east-1c > eks.log
+echo 'Creating an EKS cluster... Check the eks.log file'
+eksctl create cluster --name=$CLUSTER_NAME --nodes=1 --region=$REGION  --instance-selector-vcpus=2 --instance-selector-memory=4GiB --zones "us-east-1a,us-east-1b,us-east-1c"
 
 
 echo 'Configuring EKS context'
 aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
 
+
+echo 'Installing helm...'
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
 echo
 echo
 echo
-echo ############################
-echo #######   done   ###########
-echo ############################
+echo '############################'
+echo '#######   done   ###########'
+echo '############################'
