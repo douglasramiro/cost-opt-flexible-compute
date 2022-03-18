@@ -11,11 +11,11 @@ sudo yum install -y jq
 echo "Fetching CloudFormation outputs..."
 script/fetch-outputs
 
-echo "Configuring Cloud9..."
-script/configure-cloud9
-
 echo "Attaching Instance Profile to Cloud9..."
 script/associate-profile
+
+echo "Configuring Cloud9..."
+script/configure-cloud9
 
 echo "Cleaning cached credential..."
 rm -vf ${HOME}/.aws/credentials

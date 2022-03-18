@@ -2,4 +2,3 @@
 
 REGION=$(curl -sS http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
 aws cloud9 update-environment  --environment-id $C9_PID --managed-credentials-action DISABLE --region $REGION
-rm -vf ${HOME}/.aws/credentials
