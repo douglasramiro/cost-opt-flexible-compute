@@ -23,7 +23,7 @@ sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleap
 sudo chmod +x /usr/local/bin/kubectl
 
 echo 'Creating an EKS cluster'
-eksctl create cluster ----instance-selector-vcpus=2 --instance-selector-memory=4GiB --zones "us-east-1a,us-east-1b,us-east-1c"name=$CLUSTER_NAME --nodes=1 --region=$REGION  
+eksctl create cluster --name=$CLUSTER_NAME --nodes=1 --region=$REGION  --instance-selector-vcpus=2 --instance-selector-memory=4GiB --zones "us-east-1a,us-east-1b,us-east-1c"
 
 
 echo 'Configuring EKS context'
