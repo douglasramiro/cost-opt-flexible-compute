@@ -20,4 +20,7 @@ script/configure-cloud9
 echo "Cleaning cached credential..."
 rm -vf ${HOME}/.aws/credentials
 
+echo "Configuring Eks..."
+script/configure-eks
+
 echo "Success!"
