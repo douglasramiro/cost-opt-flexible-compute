@@ -2,22 +2,31 @@
 
 set -eu
 
-REGION=$(curl -sS http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
-CLUSTER_NAME=flexible-compute-cluster
-KUBECTL_VERSION=v1.21.2
+export REGION=$(curl -sS http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+export CLUSTER_NAME=flexible-compute-cluster
+export KUBECTL_VERSION=v1.21.2
+echo "export CLUSTER_NAME=flexible-compute-cluster" >> ~/.bash_profile
 
 echo 'Installing eksctl'
 curl --silent --location https://github.com/weaveworks/eksctl/releases/download/v0.87.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
 
-
+echo 'Enabling eksctl bash completion'
+eksctl completion bash >>  ~/.bash_completion
+. /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
 
 
 echo 'Installing kubectl'
 sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 
-echo 'Creating an EKS cluster... Check the eks.log file'
+echo 'Enabling kubectl bash completion'
+kubectl completion bash >>  ~/.bash_completion
+. /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
+
+echo 'Creating an EKS cluster'
 eksctl create cluster --name=$CLUSTER_NAME --nodes=1 --region=$REGION  --instance-selector-vcpus=2 --instance-selector-memory=4GiB --zones "us-east-1a,us-east-1b,us-east-1c"
 
 
@@ -27,6 +36,9 @@ aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
 
 echo 'Installing helm...'
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+echo 'Deploying the metrics server'
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.0/components.yaml
 
 echo
 echo
