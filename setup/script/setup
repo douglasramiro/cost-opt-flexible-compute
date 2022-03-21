@@ -6,7 +6,7 @@ echo "Removing unneeded docker images..."
 docker images -q | xargs docker rmi || true
 
 echo "Installing dependencies..."
-sudo yum install -y jq
+sudo yum install -y jq bash-completion
 
 echo "Fetching CloudFormation outputs..."
 script/fetch-outputs

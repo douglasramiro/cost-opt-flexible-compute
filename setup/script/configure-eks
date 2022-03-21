@@ -11,20 +11,10 @@ echo 'Installing eksctl'
 curl --silent --location https://github.com/weaveworks/eksctl/releases/download/v0.87.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
 
-echo 'Enabling eksctl bash completion'
-eksctl completion bash >>  ~/.bash_completion
-. /etc/profile.d/bash_completion.sh
-. ~/.bash_completion
-
 
 echo 'Installing kubectl'
 sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
-
-echo 'Enabling kubectl bash completion'
-kubectl completion bash >>  ~/.bash_completion
-. /etc/profile.d/bash_completion.sh
-. ~/.bash_completion
 
 echo 'Creating an EKS cluster'
 eksctl create cluster --name=$CLUSTER_NAME --nodes=1 --region=$REGION  --instance-selector-vcpus=2 --instance-selector-memory=4GiB --zones "us-east-1a,us-east-1b,us-east-1c"
