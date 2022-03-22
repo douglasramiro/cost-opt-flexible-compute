@@ -36,6 +36,11 @@ curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 
 echo 'Deploying the metrics server'
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.0/components.yaml
 
+echo 'Labeling EKS nodes'
+NODE=$(kubectl get no -o json | jq -r '.items[] | .metadata.name')
+kubectl label node $NODE intent=control-apps
+
+
 echo
 echo
 echo
