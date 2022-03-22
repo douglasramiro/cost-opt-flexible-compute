@@ -22,7 +22,6 @@ public class SqsRepository {
 
     public void publishToSqS(Lottery lottery) {
         client.sendMessage(SendMessageRequest.builder()
-
                 .queueUrl(getUrl(queueName))
                 .messageBody(gson.toJson(lottery))
                 .delaySeconds(10)
