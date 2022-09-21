@@ -36,11 +36,16 @@ def receive_message(queue_url):
     logging.warning("#####################")
 
 while True:
-    r = requests.get('http://169.254.169.254/latest/meta-data/spot/instance-action');
-    if '404' in r.text:
+    interruption = requests.get('http://169.254.169.254/latest/meta-data/spot/instance-action');
+    rebalance = requests.get('http://169.254.169.254/latest/meta-data/events/recommendations/rebalance');
+    if '404' in interruption.text and '404'in rebalance.text:
       receive_message(get_queue_url())
-    else:
+    
+    if '404' not in interruption.text:
       logging.warning("EC2 Spot Instance interruption notice received... Will not read a message from the queue...")
       time.sleep(10)
-    time.sleep(1)
+        
+    if '404' not in rebalance.text:
+      logging.warning("EC2 Spot Instance Rebalance notice received... Will not read a message from the queue...")
+      time.sleep(10)
 
